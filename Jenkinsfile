@@ -13,6 +13,13 @@ pipeline {
                 echo "Fetching the source code from the directory path specified by the environment variable: ${env.DIRECTORY_PATH}"
                 echo "Compiling the code and generating any necessary artifacts"
             }
+            post{
+                success{
+                    mail to: "tienht.vn@gmail.com",
+                    subject: "Build Status Email",
+                    body: "Build was successful!"
+                }
+            }
         }
         stage('Test') {
             steps {
@@ -41,13 +48,6 @@ pipeline {
         stage('Deploy to Production') {
             steps {
                 echo "Deploying code to the production environment (${env.PRODUCTION_ENVIRONMENT})"
-            }
-            post{
-                success{
-                    mail to: "tienht.vn@gmail.com",
-                    subject: "Build Status Email",
-                    body: "Build was successful!"
-                }
             }
         }
     }
