@@ -27,22 +27,19 @@ pipeline {
                 echo "Running integration tests"
             }
         }
-        stage('Code Quality Check') {
+        stage('Code Analysis') {
             steps {
-                echo "Checking the quality of the code"
+                echo "Checking the quality of the code using Checkstyle"
             }
         }
-        stage('Deploy') {
+        stage('Deploy to Staging') {
             steps {
                 echo "Deploying the application to a testing environment specified by the environment variable: ${env.TESTING_ENVIRONMENT}"
             }
         }
-        stage('Approval') {
+        stage('Integration Test on Staging') {
             steps {
-                echo "Waiting for manual approval..."
-                script {
-                    sleep time: 10, unit: 'SECONDS'
-                }
+                echo "Running integration tests on ${env.TESTING_ENVIRONMENT}"
             }
         }
         stage('Deploy to Production') {
